@@ -18,8 +18,6 @@ public class LoginServer implements Runnable{
     public void run() {
 
 
-
-
     }
 
     public static void openServer() throws Exception {
