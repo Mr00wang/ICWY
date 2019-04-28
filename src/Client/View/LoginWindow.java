@@ -127,11 +127,13 @@ public class LoginWindow extends JFrame {
         //mix picture
         label_5 = new JLabel(new ImageIcon("picture/最小化.png"));
         label_5.setBounds(326, 10, 30, 37);
+        label_5.setToolTipText("最小化");
         getContentPane().add(label_5);
 
         //exit picture
         label_6 = new JLabel(new ImageIcon("picture/关闭.png"));
         label_6.setBounds(366, 10, 30, 37);
+        label_6.setToolTipText("关闭");
         getContentPane().add(label_6);
 
         MyEvent();
