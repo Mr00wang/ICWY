@@ -7,7 +7,6 @@ import java.util.Set;
 public class UserOnlineList {
     private UserOnlineList() {
     }
-
     private static UserOnlineList userOnlineList = new UserOnlineList();
 
     public static UserOnlineList getUserOnlineList() {
@@ -15,7 +14,7 @@ public class UserOnlineList {
     }
 
     // 我们把所有的在线账户 全部登记在集合中
-    /**
+    /*
      * String 是用户的编号
      */
     private HashMap<String, UserInfo> hashMap = new HashMap<String, UserInfo>();
@@ -44,7 +43,7 @@ public class UserOnlineList {
         hashMap.put(uid, userInfo);// 登记在线
     }
 
-    /**
+    /*
      * 更新客户端的UDP信息
      *
      * @param uid
@@ -67,7 +66,7 @@ public class UserOnlineList {
         return hashMap.containsKey(uid);
     }
 
-    /**
+    /*
      * 获得在线用户信息
      *
      * @param uid
@@ -77,7 +76,7 @@ public class UserOnlineList {
         return hashMap.get(uid);
     }
 
-    /**
+    /*
      * 下线了
      *
      * @param uid
@@ -86,7 +85,7 @@ public class UserOnlineList {
         hashMap.remove(uid);
     }
 
-    /**
+    /*
      * 获得所有的在线信息
      *
      * @return

@@ -33,7 +33,8 @@ public class UserInfo {
         this.email = email;
     }
 
-    public Socket getSocket() {
+    public Socket getSocket()
+    {
         return socket;
     }
 
