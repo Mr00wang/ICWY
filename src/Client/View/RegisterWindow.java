@@ -77,6 +77,7 @@ public class RegisterWindow extends JFrame {
 
         setUndecorated(true);
         setBounds(600, 400, 842, 530);
+        setLocation(WindowXY.getXY(this.getSize()));
         c.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(c);
         c.setLayout(null);

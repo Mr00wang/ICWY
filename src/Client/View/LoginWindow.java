@@ -70,6 +70,7 @@ public class LoginWindow extends JFrame {
         setUndecorated(true);
         setResizable(false);
         setBounds(700,350, 402, 429);
+        setLocation(WindowXY.getXY(this.getSize()));
         c.setLayout(null);
         c.setBorder(new LineBorder(Color.GRAY));
         setVisible(true);
