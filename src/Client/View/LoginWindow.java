@@ -134,7 +134,6 @@ public class LoginWindow extends JFrame {
         label_6.setBounds(366, 10, 30, 37);
         label_6.setToolTipText("关闭");
         getContentPane().add(label_6);
-
         MyEvent();
     }
     public void MyEvent()
