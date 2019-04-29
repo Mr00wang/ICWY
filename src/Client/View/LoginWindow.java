@@ -53,8 +53,6 @@ public class LoginWindow extends JFrame {
      * Create the frame.
      */
     public LoginWindow() {
-
-
         //background picture
         JLabel picture = new JLabel();
         picture.setIcon(new ImageIcon("picture/login_1.png"));
@@ -71,9 +69,10 @@ public class LoginWindow extends JFrame {
         setAlwaysOnTop(true);
         setUndecorated(true);
         setResizable(false);
-        setBounds(100, 100, 402, 429);
+        setBounds(700,350, 402, 429);
         c.setLayout(null);
         c.setBorder(new LineBorder(Color.GRAY));
+        setVisible(true);
         //image
         image = new ImageIcon("picture/login_2.png");
         Image img = image.getImage();
@@ -101,13 +100,13 @@ public class LoginWindow extends JFrame {
         textField.setColumns(10);
 
         //change password button
-        label_3 = new JLabel("\u5FD8\u8BB0\u5BC6\u7801\uFF1F");
+        label_3 = new JLabel("忘记密码？");
         label_3.setForeground(new Color(65, 105, 225));
-        label_3.setBounds(170, 277, 99, 31);
+        label_3.setBounds(170, 277, 60, 31);
         c.add(label_3);
 
         //register label
-        label_4 = new JLabel("\u6CA1\u6709\u8D26\u53F7\uFF1F");
+        label_4 = new JLabel("没有账号？");
         label_4.setForeground(new Color(65, 105, 225));
         label_4.setBounds(326, 274, 66, 37);
         c.add(label_4);
@@ -118,7 +117,7 @@ public class LoginWindow extends JFrame {
         c.add(passwordField);
 
         //login button
-        button_1 = new JButton("\u767B          \u9646");
+        button_1 = new JButton("登          陆");
         button_1.setBackground(new Color(0, 191, 255));
         button_1.setForeground(SystemColor.desktop);
         button_1.setBounds(108, 319, 196, 48);
@@ -165,7 +164,9 @@ public class LoginWindow extends JFrame {
             }
             public void mousePressed(MouseEvent e)
             {
-
+                RegisterWindow frame = new RegisterWindow();
+                frame.setVisible(true);
+                dispose();
             }
         });
         label_5.addMouseListener(new MouseAdapter() {
