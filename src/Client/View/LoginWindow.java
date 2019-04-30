@@ -20,22 +20,6 @@ public class LoginWindow extends JFrame {
      * Launch the application.
      */
     public static void main(String[] args) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(RevertSql.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(RevertSql.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(RevertSql.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(RevertSql.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
 //
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -53,6 +37,7 @@ public class LoginWindow extends JFrame {
      * Create the frame.
      */
     public LoginWindow() {
+        new StyleWindow();
         //background picture
         JLabel picture = new JLabel();
         picture.setIcon(new ImageIcon("picture/login_1.png"));
@@ -150,7 +135,8 @@ public class LoginWindow extends JFrame {
             }
             public void mousePressed(MouseEvent e)
             {
-
+                PasswordWindow frame = new PasswordWindow();
+                frame.setVisible(true);
             }
         });
         label_4.addMouseListener(new MouseAdapter() {
