@@ -37,7 +37,6 @@ public class UserOnlineList {
 
         userInfo = new UserInfo();
         userInfo.setUid(uid);
-        userInfo.setEmail(email);
         userInfo.setPhone(phoneNumber);
         userInfo.setSocket(socket);
         hashMap.put(uid, userInfo);// 登记在线

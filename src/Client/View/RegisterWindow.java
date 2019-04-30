@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 
 public class RegisterWindow extends JFrame {
 
-    /**
+    /*
      *
      */
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class RegisterWindow extends JFrame {
     protected Point pressedPoint;
     public ImageIcon image;
 
-    /**
+    /*
      * Launch the application.
      */
     public static void main(String[] args) {
@@ -61,7 +61,7 @@ public class RegisterWindow extends JFrame {
         });
     }
 
-    /**
+    /*
      * Create the frame.
      */
     public RegisterWindow() {
