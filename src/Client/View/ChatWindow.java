@@ -112,6 +112,7 @@ public class ChatWindow extends JFrame {
 
         JPanel panel_1 = new JPanel();
         splitPane.setRightComponent(panel_1);
+
         panel_1.setLayout(null);
 
         FlowLayout flowLayout_1 = new FlowLayout();
