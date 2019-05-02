@@ -23,6 +23,7 @@ public class ChatWindow extends JFrame {
     private JButton button_2;
     private JScrollPane scrollPane;
     private JLabel lblAdd;
+    public String picture_path;
 
     /**
      * Launch the application.
@@ -88,6 +89,16 @@ public class ChatWindow extends JFrame {
         lblAdd.setBounds(133, 10, 72, 34);
         panel.add(lblAdd);
 
+        //head
+        ImageIcon image = new ImageIcon("E:\\java\\ICWY1\\picture\\head1.jpg");
+        Image img = image.getImage();
+        img = img.getScaledInstance(60, 49, Image.SCALE_DEFAULT);
+        image.setImage(img);
+        JLabel lblHead = new JLabel();
+        lblHead.setIcon(image);
+        lblHead.setBounds(37, 0, 60, 54);
+        panel.add(lblHead);
+
         //列表
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setOpaque(true);
@@ -108,7 +119,7 @@ public class ChatWindow extends JFrame {
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDividerLocation(320);
         splitPane.setBounds(190, 54, 652, 544);
-        //c.add(splitPane);
+        c.add(splitPane);
 
         JPanel panel_1 = new JPanel();
         splitPane.setRightComponent(panel_1);
@@ -134,6 +145,13 @@ public class ChatWindow extends JFrame {
         button_2.setBackground(new Color(0, 191, 255));
         button_2.setForeground(SystemColor.desktop);
         panel_2.add(button_2);
+
+        //文件 file
+        JButton button_3 = new JButton("文  件");
+        button_3.setFont(new Font("宋体", Font.PLAIN, 15));
+        button_3.setBackground(new Color(0, 191, 255));
+        button_3.setForeground(SystemColor.desktop);
+        panel_2.add(button_3);
 
         //发送面板
         FlowLayout flowLayout_2 = new FlowLayout();
@@ -191,6 +209,7 @@ public class ChatWindow extends JFrame {
         label_1.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e)
             {
+                //JOptionPane.showConfirmDialog(null,"确定关闭？");
                 dispose();
             }
         });

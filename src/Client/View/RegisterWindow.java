@@ -170,13 +170,13 @@ public class RegisterWindow extends JFrame {
 
 
         //head
-        image = new ImageIcon("picture/login_2.png");
+        image = new ImageIcon("E:\\java\\ICWY1\\picture\\head1.jpg");
         Image img = image.getImage();
         img = img.getScaledInstance(171, 171, Image.SCALE_DEFAULT);
         image.setImage(img);
         label_8 = new JLabel();
         label_8.setIcon(image);
-        label_8.setBounds(86, 135, 171, 171);
+        label_8.setBounds(83, 150, 171, 171);
         c.add(label_8);
 
         //choose head

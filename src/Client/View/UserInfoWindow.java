@@ -70,7 +70,9 @@ public class UserInfoWindow extends JFrame {
         c.setLayout(null);
         c.setBorder(new LineBorder(Color.GRAY));
 
+        //Exit
         label = new JLabel(new ImageIcon("picture/Info.png"));
+        label.setToolTipText("关闭");
         label.setBounds(288, 10, 60, 38);
         c.add(label);
 
@@ -144,6 +146,7 @@ public class UserInfoWindow extends JFrame {
         button.setFont(new Font("宋体", Font.PLAIN, 15));
         button.setBackground(new Color(0, 191, 255));
         button.setForeground(SystemColor.desktop);
+        button.setToolTipText("修改信息");
         c.add(button);
         MyEvent();
     }

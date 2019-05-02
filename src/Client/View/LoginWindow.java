@@ -59,6 +59,7 @@ public class LoginWindow extends JFrame {
         c.setLayout(null);
         c.setBorder(new LineBorder(Color.GRAY));
         setVisible(true);
+
         //image
         image = new ImageIcon("picture/login_2.png");
         Image img = image.getImage();
