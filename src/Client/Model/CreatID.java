@@ -5,6 +5,9 @@ import com.sun.xml.internal.bind.v2.model.core.ID;
 import java.sql.Statement;
 import java.util.Random;
 
+/**
+ * 随机分配账号
+ */
 public class CreatID {
     private String ID = "";
     private Random create;

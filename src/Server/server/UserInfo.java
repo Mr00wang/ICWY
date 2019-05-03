@@ -1,4 +1,4 @@
-package Server;
+package Server.server;
 
 import java.net.Socket;
 
@@ -24,8 +24,7 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public Socket getSocket()
-    {
+    public Socket getSocket() {
         return socket;
     }
 
@@ -44,9 +43,12 @@ public class UserInfo {
     public int getUdpport() {
         return udpport;
     }
+
     public void setUdpport(int udpport) {
         this.udpport = udpport;
     }
 
     private int udpport;
+
+
 }
