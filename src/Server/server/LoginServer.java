@@ -68,8 +68,8 @@ public class LoginServer implements Runnable {
                     String command = new String(bytes, 0, len);
                     if (command.equals("U0001")) { // 更新好友列表
 
-                        Vector<Server.db.UserInfo> userinfos = new UserService().getHaoyouliebiao(uid);
-                        out.write(JSONArray.fromObject(userinfos).toString().getBytes());
+                        //Vector<Server.db.UserInfo> userinfos = new UserService().getHaoyouliebiao(uid);
+                        //out.write(JSONArray.fromObject(userinfos).toString().getBytes());
                         out.flush();
 
                     } else if (command.equals("U0002")) {// 更新好友在线
@@ -160,13 +160,13 @@ public class LoginServer implements Runnable {
 
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         try {
             openServer();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
+    }*/
 
 }

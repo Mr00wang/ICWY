@@ -1,11 +1,20 @@
 package Client.View;
 
+import Client.Model.CreatID;
+import Client.Model.SQL_Connect;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Enumeration;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.xml.transform.Result;
 
 public class RegisterWindow extends JFrame {
 
@@ -28,7 +37,7 @@ public class RegisterWindow extends JFrame {
     private JButton button;
     protected Point pressedPoint;
     public ImageIcon image;
-
+    public ButtonGroup bg;
     /*
      * Launch the application.
      */
@@ -98,16 +107,20 @@ public class RegisterWindow extends JFrame {
         label_2.setBounds(368, 241, 151, 34);
         c.add(label_2);
 
-        JRadioButton radioButton = new JRadioButton("男");
-        radioButton.setFont(new Font("宋体", Font.PLAIN, 20));
-        radioButton.setSelected(true);
-        radioButton.setBounds(514, 246, 51, 27);
-        c.add(radioButton);
+        JRadioButton[] rb = {new JRadioButton("男"),new JRadioButton("女")};
+         bg = new ButtonGroup();
+        for(int i = 0; i<rb.length;i++)
+        {
+            c.add(rb[i]);
+            bg.add(rb[i]);
+        }
+        rb[0].setSelected(true);
+        rb[0].setFont(new Font("宋体", Font.PLAIN, 20));
+        rb[0].setBounds(514, 246, 51, 27);
 
-        JRadioButton radioButton_1 = new JRadioButton("女");
-        radioButton_1.setFont(new Font("宋体", Font.PLAIN, 20));
-        radioButton_1.setBounds(590, 246, 51, 27);
-        c.add(radioButton_1);
+        rb[1].setSelected(false);
+        rb[1].setFont(new Font("宋体", Font.PLAIN, 20));
+        rb[1].setBounds(590, 246, 51, 27);
 
         //password
         JLabel label_3 = new JLabel("密    码：");
@@ -190,6 +203,85 @@ public class RegisterWindow extends JFrame {
     }
     public void MyEvent()
     {
+        //Register button_1
+        button_1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Connection conn = null;
+                Statement statement = null;
+                Result result = null;
+                String driver = "com.mysql.jdbc.Driver";
+                String url = "jdbc:mysql://localhost:3306/icwy?useUnicode=true&characterEncoding=utf-8";
+                String user = "root";
+                String password = "123456";
+                try {
+                    Class.forName(driver);
+                    System.out.println("成功加载sql驱动");
+                } catch (ClassNotFoundException e1) {
+                    System.out.println("找不到sql驱动");
+                    e1.printStackTrace();
+                }
+                if((textField.getText().trim()=="" || passwordField.getText().trim()=="" || passwordField_1.getText().trim()==""))
+                {
+                    JOptionPane.showMessageDialog(null,"关键信息不能为空！");
+                    RegisterWindow frame = new RegisterWindow();
+                    frame.setVisible(true);
+                    dispose();
+                }
+                if(textField_2.getText().trim().length()!=11)
+                {
+                    JOptionPane.showMessageDialog(null,"手机号码格式不正确");
+                    RegisterWindow frame = new RegisterWindow();
+                    frame.setVisible(true);
+                    dispose();
+                }
+                try
+                {
+                    conn = (Connection) DriverManager.getConnection(url, user ,password);
+                    //conn = SQL_Connect.getConnection();
+                    statement = conn.createStatement();
+                        if(passwordField.getText().trim().equals(passwordField_1.getText().trim()))
+                        {
+                            CreatID uid = new CreatID(statement);
+                            String img = "E:\\java\\ICWY1\\picture\\head1.jpg";
+                            int state = 0;
+                            //获取按钮的值
+                            String sex="false";
+                            Enumeration<AbstractButton> radioBtns= bg.getElements();
+                            while (radioBtns.hasMoreElements()) {
+                                AbstractButton btn = radioBtns.nextElement();
+                                if(btn.isSelected()){
+                                    sex=btn.getText();
+                                    break;
+                                }
+                            }
+                            String str = "insert into user values("+uid+",'"+passwordField.getText().trim()+"','"+textField.getText().trim()+"','"+textField_2.getText().trim()+"','"+textField_1.getText().trim()+"','"
+                                    +""+"','"+sex+"','"+""+"','"+img+"','"+state+"')";
+
+                            int q = statement.executeUpdate(str);
+                            if(q!=0)
+                            {
+                                JOptionPane.showMessageDialog(null,"注册成功！\\n您的登陆账号为\\n"+uid+"\\n请您牢记！");
+                                dispose();
+                                LoginWindow frame = new LoginWindow();
+                                frame.setVisible(true);
+                            }
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(null,"两次密码不一致");
+                            passwordField.setText("");
+                            passwordField_1.setText("");
+
+                        }
+
+                }catch(SQLException e1)
+                {
+                    System.out.println("数据库连接失败！");
+                }
+            }
+        });
+        //
         button_2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

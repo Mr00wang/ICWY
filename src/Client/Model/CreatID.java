@@ -29,7 +29,7 @@ public class CreatID {
 
         //验证新ID的可用性
         public String checkID() {
-            while (check("select icwy * from User where ID = '" + getID() + "'"))
+            while (check("select * from icwy where uid = '" + getID() + "'"))
                 break;
             return ID;
         }
