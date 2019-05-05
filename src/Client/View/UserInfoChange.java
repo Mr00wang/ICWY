@@ -1,14 +1,17 @@
 package Client.View;
 
+import Client.Model.Config;
+import Client.Model.SQL_Connect;
 import Client.View.StyleWindow;
-import Client.View.UserInfoWindow;
 import Client.View.WindowXY;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 public class UserInfoChange extends JFrame {
@@ -27,6 +30,8 @@ public class UserInfoChange extends JFrame {
     private JLabel label_4;
     private JTextField textField_4;
     private JLabel label_6;
+    private JTextArea textArea;
+    private JComboBox<String> comboBox;
 
     /**
      * Launch the application.
@@ -60,11 +65,12 @@ public class UserInfoChange extends JFrame {
         c.setOpaque(false);
         setBounds(100, 100, 342, 512);
         setUndecorated(true);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         setLocation(WindowXY.getXY(this.getSize()));
         c.setBorder(new LineBorder(Color.GRAY));
         c.setLayout(null);
 
+        //cancel
         button = new JButton("取    消");
         button.setBounds(206, 469, 113, 33);
         button.setFont(new Font("宋体", Font.PLAIN, 20));
@@ -72,18 +78,55 @@ public class UserInfoChange extends JFrame {
         button.setForeground(SystemColor.desktop);
         c.add(button);
 
+      /*//获取用户的个人信息
+        Connection conn_1 = null;
+        Statement statement_1 = null;
+        ResultSet rs_1 = null;
+        String id = "666001";
+        String sql_1 = "select * from user";
+        try {
+			conn_1 = SQL_Connect.getConnection();
+			System.out.println("数据库连接成功");
+			statement_1 = conn_1.createStatement();
+			rs_1 = statement_1.executeQuery(sql_1);
+			while(rs_1.next())
+			{
+				if(id.equals(rs_1.getString("id")))
+				{
+					textField.setText(rs_1.getString("name"));
+					textArea.setText(rs_1.getString("sign"));
+					comboBox.setSelectedItem(rs_1.getString("sex"));
+					textField_1.setText(rs_1.getString("age"));
+					textField_2.setText(rs_1.getString("home"));
+					textField_4.setText(rs_1.getString("phone"));
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        finally {
+        	try {
+        		conn_1.close();
+				statement_1.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("数据库连接失败");
+			}
+        }*/
+
+        //save
         button_1 = new JButton("保    存");
-        button_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
         button_1.setBounds(35, 469, 113, 33);
         button_1.setFont(new Font("宋体", Font.PLAIN, 20));
         button_1.setBackground(new Color(0, 191, 255));
         button_1.setForeground(SystemColor.desktop);
         c.add(button_1);
 
-        label = new JLabel("\u6635    \u79F0\uFF1A");
+        //nick
+        label = new JLabel("昵    称：");
         label.setFont(new Font("宋体", Font.PLAIN, 15));
         label.setBounds(32, 117, 77, 29);
         c.add(label);
@@ -91,9 +134,10 @@ public class UserInfoChange extends JFrame {
         textField = new JTextField();
         textField.setBounds(119, 120, 166, 24);
         c.add(textField);
-        textField.setColumns(10);
+        //textField.setColumns(10);
 
-        label_1 = new JLabel("\u5E74    \u9F84\uFF1A");
+        //age
+        label_1 = new JLabel("年    龄：");
         label_1.setFont(new Font("宋体", Font.PLAIN, 15));
         label_1.setBounds(35, 244, 83, 24);
         c.add(label_1);
@@ -103,7 +147,8 @@ public class UserInfoChange extends JFrame {
         c.add(textField_1);
         textField_1.setColumns(10);
 
-        label_2 = new JLabel("\u5BB6    \u4E61\uFF1A");
+        //home
+        label_2 = new JLabel("家    乡：");
         label_2.setFont(new Font("宋体", Font.PLAIN, 15));
         label_2.setBounds(35, 328, 78, 21);
         c.add(label_2);
@@ -113,7 +158,8 @@ public class UserInfoChange extends JFrame {
         c.add(textField_2);
         textField_2.setColumns(10);
 
-        label_3 = new JLabel("\u4E2A\u6027\u7B7E\u540D\uFF1A");
+        //sign
+        label_3 = new JLabel("个性签名：");
         label_3.setFont(new Font("宋体", Font.PLAIN, 15));
         label_3.setBounds(32, 168, 86, 29);
         c.add(label_3);
@@ -124,11 +170,12 @@ public class UserInfoChange extends JFrame {
         c.add(label_4);
 
         String[] s = {"男","女"};
-        JComboBox comboBox = new JComboBox(s);
+        comboBox = new JComboBox<String>(s);
         comboBox.setBounds(120, 286, 166, 24);
         c.add(comboBox);
 
-        JLabel label_5 = new JLabel("\u624B \u673A \u53F7\uFF1A");
+        //phone
+        JLabel label_5 = new JLabel("手 机 号：");
         label_5.setFont(new Font("宋体", Font.PLAIN, 15));
         label_5.setBounds(35, 377, 78, 19);
         c.add(label_5);
@@ -138,10 +185,11 @@ public class UserInfoChange extends JFrame {
         c.add(textField_4);
         textField_4.setColumns(10);
 
-        JTextArea textArea = new JTextArea();
+        textArea = new JTextArea();
         textArea.setBounds(120, 171, 166, 58);
         c.add(textArea);
 
+        //exit
         label_6 = new JLabel(new ImageIcon("picture/info_1.png"));
         label_6.setToolTipText("关闭");
         label_6.setBounds(277, 10, 54, 33);
@@ -150,6 +198,51 @@ public class UserInfoChange extends JFrame {
     }
     public void MyEvent()
     {
+        button_1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Connection conn = null;
+                Statement statement = null;
+                try {
+                    //String id = "666001";
+                    conn = SQL_Connect.getConnection();
+                    System.out.println("数据库连接成功");
+                    statement = conn.createStatement();
+                    String sql1 = "update user set name='"+textField.getText()+"'where id='"+Config.id+"'";
+                    String sql2 = "update user set phone='"+textField_4.getText()+"'where id='"+Config.id+"'";
+                    String sql3 = "update user set age='"+textField_1.getText()+"'where id='"+Config.id+"'";
+                    String sql4 = "update user set sign='"+textArea.getText()+"'where id='"+Config.id+"'";
+                    String sql5 = "update user set sex='"+(String)comboBox.getSelectedItem()+"'where id='"+Config.id+"'";
+                    String sql6 = "update user set home='"+textField_2.getText()+"'where id='"+Config.id+"'";
+                    int q = statement.executeUpdate(sql1);
+                    q = statement.executeUpdate(sql2);
+                    q = statement.executeUpdate(sql3);
+                    q = statement.executeUpdate(sql4);
+                    q = statement.executeUpdate(sql5);
+                    q = statement.executeUpdate(sql6);
+                    if(q!=0)
+                    {
+                        JOptionPane.showMessageDialog(null, "修改成功！");
+                        UserInfoWindow frame = new UserInfoWindow();
+                        frame.setVisible(true);
+                        dispose();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "修改成功！");
+                    }
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    System.out.println("数据库连接失败");
+                    e1.printStackTrace();
+                }
+                finally {
+                    try {
+                        statement.close();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        });
         label_6.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e)
             {

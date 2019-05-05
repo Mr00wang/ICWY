@@ -2,10 +2,16 @@ package Client.View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import Client.Model.SQL_Connect;
 
 public class PasswordWindow extends JFrame {
 
@@ -61,7 +67,7 @@ public class PasswordWindow extends JFrame {
         c.setOpaque(false);
 
         setUndecorated(true);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         setBounds(100, 100, 842, 530);
         setLocation(WindowXY.getXY(this.getSize()));
         //c = new JPanel();
@@ -82,6 +88,7 @@ public class PasswordWindow extends JFrame {
         label_6.setToolTipText("关闭");
         c.add(label_6);
 
+        //nick
         label = new JLabel("\u6635    \u79F0\uFF1A");
         label.setFont(new Font("宋体", Font.PLAIN, 24));
         label.setBounds(357, 155, 128, 29);
@@ -92,6 +99,7 @@ public class PasswordWindow extends JFrame {
         c.add(textField);
         textField.setColumns(10);
 
+        //phone
         label_1 = new JLabel("\u624B \u673A \u53F7\uFF1A");
         label_1.setFont(new Font("宋体", Font.PLAIN, 24));
         label_1.setBounds(357, 225, 134, 36);
@@ -120,14 +128,16 @@ public class PasswordWindow extends JFrame {
         passwordField_1.setBounds(511, 371, 282, 32);
         c.add(passwordField_1);
 
-        button = new JButton("\u91CD        \u7F6E");
+        //reset password
+        button = new JButton("重        置");
         button.setFont(new Font("宋体", Font.PLAIN, 20));
         button.setBackground(new Color(0, 191, 255));
         button.setForeground(SystemColor.desktop);
         button.setBounds(561, 461, 196, 48);
         c.add(button);
 
-        button_1 = new JButton("\u53D6    \u6D88");
+        //cancel button
+        button_1 = new JButton("取      消");
         button_1.setFont(new Font("宋体", Font.PLAIN, 20));
         button_1.setBackground(new Color(0, 191, 255));
         button_1.setForeground(SystemColor.desktop);
@@ -137,6 +147,67 @@ public class PasswordWindow extends JFrame {
     }
     public void MyEvent()
     {
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                Connection conn = null;
+                Statement statement = null;
+                ResultSet result = null;
+                try {
+                    conn = SQL_Connect.getConnection();
+                    System.out.println("数据库连接成功");
+                    statement = conn.createStatement();
+                    String sql = "select name,phone from user where name='"+textField.getText()+"'";
+                    String sql_1 = "update user set password='"+passwordField.getText().trim()+"' where phone='"+textField_1.getText().trim()+"'";
+                    result = statement.executeQuery(sql);
+                    if(textField.getText().trim().equals("") || textField_1.getText().trim().equals("") || passwordField.getText().trim().equals("") || passwordField_1.getText().trim().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(null, "输入不能有空！");
+                    }
+                    else {
+                        while(result.next())
+                        {
+                            if(textField.getText().trim().equals(result.getString("name")) && textField_1.getText().trim().equals(result.getString("phone")))
+                            {
+                                if(passwordField.getText().trim().equals(passwordField_1.getText().trim()))
+                                {
+                                    statement.executeUpdate(sql_1);
+                                    JOptionPane.showMessageDialog(null, "重置成功");
+                                    dispose();
+                                }
+                                else {
+                                    JOptionPane.showMessageDialog(null, "两次密码不一致");
+                                    passwordField.setText("");
+                                    passwordField_1.setText("");
+                                }
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(null, "重置失败！\n昵称与手机号不一致!");
+                                PasswordWindow frame = new PasswordWindow();
+                                frame.setVisible(true);
+                                dispose();
+                            }
+                        }
+                    }
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    System.out.println("数据库连接失败");
+                    e1.printStackTrace();
+                }
+                finally {
+                    try {
+                        statement.close();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+
+                }
+            }
+        });
         button_1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

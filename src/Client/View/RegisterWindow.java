@@ -6,7 +6,6 @@ import Client.Model.SQL_Connect;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
@@ -14,7 +13,6 @@ import java.util.Enumeration;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.xml.transform.Result;
 
 public class RegisterWindow extends JFrame {
 
@@ -76,7 +74,7 @@ public class RegisterWindow extends JFrame {
         c.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(c);
         c.setLayout(null);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         c.setBorder(new LineBorder(Color.GRAY));
 
         //nick
@@ -108,7 +106,7 @@ public class RegisterWindow extends JFrame {
         c.add(label_2);
 
         JRadioButton[] rb = {new JRadioButton("男"),new JRadioButton("女")};
-         bg = new ButtonGroup();
+        bg = new ButtonGroup();
         for(int i = 0; i<rb.length;i++)
         {
             c.add(rb[i]);
@@ -198,6 +196,14 @@ public class RegisterWindow extends JFrame {
         button.setBackground(new Color(0, 191, 255));
         button.setForeground(SystemColor.desktop);
         button.setBounds(86, 359, 151, 45);
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null,"正在开发中！");
+
+            }
+        });
         c.add(button);
         MyEvent();
     }
@@ -209,75 +215,75 @@ public class RegisterWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Connection conn = null;
                 Statement statement = null;
-                Result result = null;
-                String driver = "com.mysql.jdbc.Driver";
-                String url = "jdbc:mysql://localhost:3306/icwy?useUnicode=true&characterEncoding=utf-8";
-                String user = "root";
-                String password = "123456";
-                try {
-                    Class.forName(driver);
-                    System.out.println("成功加载sql驱动");
-                } catch (ClassNotFoundException e1) {
-                    System.out.println("找不到sql驱动");
-                    e1.printStackTrace();
-                }
-                if((textField.getText().trim()=="" || passwordField.getText().trim()=="" || passwordField_1.getText().trim()==""))
-                {
-                    JOptionPane.showMessageDialog(null,"关键信息不能为空！");
-                    RegisterWindow frame = new RegisterWindow();
-                    frame.setVisible(true);
-                    dispose();
-                }
-                if(textField_2.getText().trim().length()!=11)
-                {
-                    JOptionPane.showMessageDialog(null,"手机号码格式不正确");
-                    RegisterWindow frame = new RegisterWindow();
-                    frame.setVisible(true);
-                    dispose();
-                }
                 try
                 {
-                    conn = (Connection) DriverManager.getConnection(url, user ,password);
-                    //conn = SQL_Connect.getConnection();
+                    conn = SQL_Connect.getConnection();
+                    System.out.println("数据库连接成功");
                     statement = conn.createStatement();
-                        if(passwordField.getText().trim().equals(passwordField_1.getText().trim()))
-                        {
-                            CreatID uid = new CreatID(statement);
-                            String img = "E:\\java\\ICWY1\\picture\\head1.jpg";
-                            int state = 0;
-                            //获取按钮的值
-                            String sex="false";
-                            Enumeration<AbstractButton> radioBtns= bg.getElements();
-                            while (radioBtns.hasMoreElements()) {
-                                AbstractButton btn = radioBtns.nextElement();
-                                if(btn.isSelected()){
-                                    sex=btn.getText();
-                                    break;
-                                }
-                            }
-                            String str = "insert into user values("+uid+",'"+passwordField.getText().trim()+"','"+textField.getText().trim()+"','"+textField_2.getText().trim()+"','"+textField_1.getText().trim()+"','"
-                                    +""+"','"+sex+"','"+""+"','"+img+"','"+state+"')";
-
-                            int q = statement.executeUpdate(str);
-                            if(q!=0)
-                            {
-                                JOptionPane.showMessageDialog(null,"注册成功！\\n您的登陆账号为\\n"+uid+"\\n请您牢记！");
-                                dispose();
-                                LoginWindow frame = new LoginWindow();
-                                frame.setVisible(true);
+                    if((textField.getText().trim().equals("")|| passwordField.getText().trim().equals("")|| passwordField_1.getText().trim().equals("")))
+                    {
+                        JOptionPane.showMessageDialog(null,"关键信息不能为空！");
+                        RegisterWindow frame = new RegisterWindow();
+                        frame.setVisible(true);
+                        dispose();
+                    }
+                    else if(textField_2.getText().trim().length()!=11)
+                    {
+                        JOptionPane.showMessageDialog(null,"手机号码格式不正确");
+                        RegisterWindow frame = new RegisterWindow();
+                        frame.setVisible(true);
+                        dispose();
+                    }
+                    else if(passwordField.getText().trim().equals(passwordField_1.getText().trim()))
+                    {
+                        String id = new CreatID(statement).getID();
+                        System.out.println(id);
+                        String img = "E:\\\\java\\\\ICWY1\\\\picture\\\\head1.jpg";
+                        int state = 0;
+                        //获取按钮的值
+                        String sex="false";
+                        Enumeration<AbstractButton> radioBtns= bg.getElements();
+                        while (radioBtns.hasMoreElements()) {
+                            AbstractButton btn = radioBtns.nextElement();
+                            if(btn.isSelected()){
+                                sex=btn.getText();
+                                break;
                             }
                         }
-                        else
-                        {
-                            JOptionPane.showMessageDialog(null,"两次密码不一致");
-                            passwordField.setText("");
-                            passwordField_1.setText("");
+                        String str = "insert into user values("+id+",'"+passwordField.getText().trim()+"','"+textField.getText().trim()+"','"+textField_2.getText().trim()+"','"+textField_1.getText().trim()+"','"
+                                +""+"','"+sex+"','"+""+"','"+img+"','"+state+"')";
 
+                        int q = statement.executeUpdate(str);
+                        if(q!=0)
+                        {
+                            JOptionPane.showMessageDialog(null,"注册成功！您的登陆账号为"+id+"请您牢记！");
+                            dispose();
+                            LoginWindow frame = new LoginWindow();
+                            frame.setVisible(true);
+                        }else {
+                            JOptionPane.showMessageDialog(null, "注册失败");
                         }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"两次密码不一致");
+                        passwordField.setText("");
+                        passwordField_1.setText("");
+
+                    }
 
                 }catch(SQLException e1)
                 {
+                    e1.printStackTrace();
                     System.out.println("数据库连接失败！");
+                }
+                finally {
+                    try {
+                        statement.close();
+                    } catch (SQLException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
                 }
             }
         });

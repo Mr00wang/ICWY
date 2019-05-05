@@ -4,6 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import Client.Controller.NetService;
+import Client.Model.Config;
+import net.sf.json.JSONObject;
+
 import java.awt.event.*;
 
 public class LoginWindow extends JFrame {
@@ -51,7 +55,7 @@ public class LoginWindow extends JFrame {
         c.setFont(new Font("Dialog", Font.PLAIN, 14));
         c.setForeground(Color.WHITE);
         c.setBackground(SystemColor.scrollbar);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         setUndecorated(true);
         setResizable(false);
         setBounds(700,350, 402, 429);
@@ -125,6 +129,43 @@ public class LoginWindow extends JFrame {
     }
     public void MyEvent()
     {
+        button_1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                String id = textField.getText().trim();
+                String password = passwordField.getText().trim();
+                if (textField.getText().trim().equals("") || passwordField.getText().trim().equals("")) {
+                    JOptionPane.showMessageDialog(null, "账号密码必须填写!");
+                    return;
+                }
+                Config.id = id;
+                Config.password = password;
+                try {
+                    JSONObject json = NetService.getNetService().login();
+
+                    if (json.getInt("state") == 0) {
+
+                        // 登录成功后 显示好友列表
+                        ChatWindow frame = new ChatWindow();
+                        frame.setVisible(true);
+                        dispose();
+						/*new HaoyouliebiaoDialog().setVisible(true);
+						LoginDialog.this.setVisible(false);
+						LoginDialog.this.dispose()*/;
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, json.getString("msg"));
+                    }
+
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "网络连接失败!");
+                }
+
+            }
+        });
         label_3.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e)
             {
@@ -151,8 +192,8 @@ public class LoginWindow extends JFrame {
             }
             public void mousePressed(MouseEvent e)
             {
-                RegisterWindow frame = new RegisterWindow();
-                frame.setVisible(true);
+                RegisterWindow frame1 = new RegisterWindow();
+                frame1.setVisible(true);
                 dispose();
             }
         });

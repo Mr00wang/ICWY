@@ -24,6 +24,8 @@ public class ChatWindow extends JFrame {
     private JScrollPane scrollPane;
     private JLabel lblAdd;
     public String picture_path;
+    private JPopupMenu menuinfo;
+    private JMenuItem menuitem1;
 
     /**
      * Launch the application.
@@ -59,7 +61,7 @@ public class ChatWindow extends JFrame {
         //
         setBounds(100, 100, 842, 602);
         setUndecorated(true);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         setLocation(WindowXY.getXY(this.getSize()));
         c.setLayout(null);
         c.setBorder(new LineBorder(Color.GRAY));
@@ -99,6 +101,18 @@ public class ChatWindow extends JFrame {
         lblHead.setBounds(37, 0, 60, 54);
         panel.add(lblHead);
 
+
+        //Menu Info
+        lblHead.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e)
+            {
+                if(e.isMetaDown())
+                {
+                    showPopupMenu(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+
         //列表
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setOpaque(true);
@@ -119,7 +133,7 @@ public class ChatWindow extends JFrame {
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDividerLocation(320);
         splitPane.setBounds(190, 54, 652, 544);
-        c.add(splitPane);
+        //c.add(splitPane);
 
         JPanel panel_1 = new JPanel();
         splitPane.setRightComponent(panel_1);
@@ -190,6 +204,22 @@ public class ChatWindow extends JFrame {
         JTextArea textArea_2 = new JTextArea();
         scrollPane.setViewportView(textArea_2);
         MyEvent();
+    }
+    public static void showPopupMenu(Component invoker,int x,int y)
+    {
+        JPopupMenu menuinfo = new JPopupMenu();
+        JMenuItem menuitem1 = new JMenuItem("个人资料");
+        menuinfo.add(menuitem1);
+        menuitem1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                UserInfoWindow frame = new UserInfoWindow();
+                frame.setVisible(true);
+            }
+        });
+        menuinfo.show(invoker, x, y);
     }
     public void MyEvent()
     {

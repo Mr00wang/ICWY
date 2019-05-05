@@ -1,12 +1,15 @@
-package Service.view;
+package Server.view;
 
 import Client.View.StyleWindow;
 import Client.View.WindowXY;
+import Server.server.Start;
 
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -96,6 +99,24 @@ public class ServerWindow extends JFrame {
     }
     public void MyEvent()
     {
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                new Start();
+
+            }
+        });
+        button_1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                System.exit(0);
+
+            }
+        });
         label.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e)
             {
