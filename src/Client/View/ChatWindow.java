@@ -1,10 +1,19 @@
 package Client.View;
 
+import Client.Controller.Client;
+import Client.Controller.CommandTranser;
+import Client.Model.Config;
+import Client.Model.SQL_Connect;
+import Client.Model.User;
 import Client.View.StyleWindow;
 import Client.View.WindowXY;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -18,36 +27,18 @@ public class ChatWindow extends JFrame {
     protected Point pressedPoint;
     private JLabel label;
     private JLabel label_1;
-    private JButton button_1;
-    private JButton button;
-    private JButton button_2;
-    private JScrollPane scrollPane;
     private JLabel lblAdd;
     public String picture_path;
-    private JPopupMenu menuinfo;
-    private JMenuItem menuitem1;
-
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    ChatWindow frame = new ChatWindow();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+    public Client client;
+    private User owner;
 
     /**
      * Create the frame.
      */
-    public ChatWindow() {
-        new StyleWindow();
+    public ChatWindow(User owner,Client client) {
+        this.owner=owner;
+        this.client=client;
+        //new StyleWindow();
 
         JLabel picture = new JLabel();
         picture.setIcon(new ImageIcon("picture/ChatWindow.jpg"));
@@ -92,7 +83,39 @@ public class ChatWindow extends JFrame {
         panel.add(lblAdd);
 
         //head
-        ImageIcon image = new ImageIcon("E:\\java\\ICWY1\\picture\\head1.jpg");
+        System.out.println(Config.id);
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet  rs = null;
+        String sql = "select id,img from user";
+        String imgstr = "";
+        try {
+            conn = SQL_Connect.getConnection();
+            statement = conn.createStatement();
+            rs = statement.executeQuery(sql);
+            while(rs.next())
+            {
+                if(Config.id.equals(rs.getString("id")))
+                {
+                    imgstr = rs.getString("img");
+                    break;
+                }
+
+            }
+        } catch (SQLException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        finally {
+
+            try {
+                statement.close();
+            } catch (SQLException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+        ImageIcon image = new ImageIcon("face/"+imgstr+".jpg");
         Image img = image.getImage();
         img = img.getScaledInstance(60, 49, Image.SCALE_DEFAULT);
         image.setImage(img);
@@ -113,99 +136,26 @@ public class ChatWindow extends JFrame {
             }
         });
 
-        //列表
+        JPanel panel_6 = new JPanel();
+        panel_6.setLayout(new BorderLayout());
+        JPanel panel_7 = new JPanel();
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setOpaque(true);
-        tabbedPane.setBorder(new LineBorder(Color.GRAY));
-        tabbedPane.setBounds(0, 54, 189, 544);
-        c.add(tabbedPane);
+        tabbedPane.setBounds(2, 54, 189, 544);
+        getContentPane().add(tabbedPane);
+        tabbedPane.setBackground(SystemColor.desktop);
+        tabbedPane.addTab("我的好友", null,panel_6,null);
+        tabbedPane.addTab("我的群聊", null,panel_7,null);
+        JScrollPane scrollpane = new JScrollPane();
+        panel_6.add(scrollpane,BorderLayout.CENTER);
 
-
-        JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.addTab("我的好友", null, tabbedPane_1, null);
-
-        JTabbedPane tabbedPane_2 = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.addTab("我的群聊", null, tabbedPane_2, null);
-
-        //分割板
-        JSplitPane splitPane = new JSplitPane();
-        splitPane.setBorder(new LineBorder(Color.GRAY));
-        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        splitPane.setDividerLocation(320);
-        splitPane.setBounds(190, 54, 652, 544);
-        //c.add(splitPane);
-
-        JPanel panel_1 = new JPanel();
-        splitPane.setRightComponent(panel_1);
-
-        panel_1.setLayout(null);
-
-        FlowLayout flowLayout_1 = new FlowLayout();
-        flowLayout_1.setAlignment(FlowLayout.LEFT);
-        JPanel panel_2 = new JPanel(flowLayout_1);
-        panel_2.setBounds(0, 0, 651, 34);
-        panel_1.add(panel_2);
-
-        //字体 font
-        button_1 = new JButton("\u5B57  \u4F53");
-        button_1.setFont(new Font("宋体", Font.PLAIN, 15));
-        button_1.setBackground(new Color(0, 191, 255));
-        button_1.setForeground(SystemColor.desktop);
-        panel_2.add(button_1);
-
-        //大小 size
-        button_2 = new JButton("\u5927  \u5C0F");
-        button_2.setFont(new Font("宋体", Font.PLAIN, 15));
-        button_2.setBackground(new Color(0, 191, 255));
-        button_2.setForeground(SystemColor.desktop);
-        panel_2.add(button_2);
-
-        //文件 file
-        JButton button_3 = new JButton("文  件");
-        button_3.setFont(new Font("宋体", Font.PLAIN, 15));
-        button_3.setBackground(new Color(0, 191, 255));
-        button_3.setForeground(SystemColor.desktop);
-        panel_2.add(button_3);
-
-        //发送面板
-        FlowLayout flowLayout_2 = new FlowLayout();
-        flowLayout_2.setAlignment(FlowLayout.RIGHT);
-        JPanel panel_3 = new JPanel(flowLayout_2);
-        panel_3.setBounds(0, 175, 651, 33);
-        panel_1.add(panel_3);
-
-        //发送 send
-        button = new JButton("\u53D1  \u9001");
-        button.setFont(new Font("宋体", Font.PLAIN, 15));
-        button.setBackground(new Color(0, 191, 255));
-        button.setForeground(SystemColor.desktop);
-        panel_3.add(button);
-
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setBounds(0, 44, 651, 121);
-        panel_1.add(scrollPane_1);
-
-        JTextArea textArea = new JTextArea();
-        scrollPane_1.setViewportView(textArea);
-
-        JPanel panel_4 = new JPanel();
-        splitPane.setLeftComponent(panel_4);
-        panel_4.setLayout(null);
-
-        JPanel panel_5 = new JPanel();
-        panel_5.setBounds(0, 0, 651, 33);
-        panel_4.add(panel_5);
-
-        //上面面板
-        scrollPane = new JScrollPane();
-        scrollPane.setBounds(0, 31, 651, 288);
-        panel_4.add(scrollPane);
-
-        JTextArea textArea_2 = new JTextArea();
-        scrollPane.setViewportView(textArea_2);
+        //加载好友列表
+        HaoyouListJPanel haoyouListJPanel = new HaoyouListJPanel(client);
+        haoyouListJPanel.setForeground(Color.WHITE);
+        scrollpane.setViewportView(haoyouListJPanel);
+        setVisible(true);
         MyEvent();
     }
-    public static void showPopupMenu(Component invoker,int x,int y)
+    public void showPopupMenu(Component invoker,int x,int y)
     {
         JPopupMenu menuinfo = new JPopupMenu();
         JMenuItem menuitem1 = new JMenuItem("个人资料");
@@ -239,7 +189,11 @@ public class ChatWindow extends JFrame {
         label_1.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e)
             {
-                //JOptionPane.showConfirmDialog(null,"确定关闭？");
+                CommandTranser cmd = new CommandTranser();
+                cmd.setCmd("logout");
+                cmd.setReceiver("Server");
+                cmd.setSender(owner.getUserQQ());
+                client.sendData(cmd);
                 dispose();
             }
         });

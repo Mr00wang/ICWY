@@ -2,7 +2,7 @@ package Server.view;
 
 import Client.View.StyleWindow;
 import Client.View.WindowXY;
-import Server.server.Start;
+import Server.server.Service;
 
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 
 public class ServerWindow extends JFrame {
@@ -68,7 +69,7 @@ public class ServerWindow extends JFrame {
         setBounds(100, 100, 641, 474);
 
         setUndecorated(true);
-        setAlwaysOnTop(true);
+        //setAlwaysOnTop(true);
         setLocation(WindowXY.getXY(this.getSize()));
         c.setBackground(new Color(255, 255, 255));
         c.setBorder(new LineBorder(Color.GRAY));
@@ -104,7 +105,8 @@ public class ServerWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
-                new Start();
+                new startServerThread().start();
+                JOptionPane.showMessageDialog(null, "服务器开启成功，请连接...");
 
             }
         });
@@ -144,5 +146,13 @@ public class ServerWindow extends JFrame {
             }
         });
     }
+}
 
+class startServerThread extends Thread{
+    @Override
+    public void run() {
+        //创建socket
+        Service s = new Service();
+        s.startService();
+    }
 }

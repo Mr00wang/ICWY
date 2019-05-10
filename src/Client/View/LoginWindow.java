@@ -4,11 +4,14 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import Client.Controller.NetService;
+import Client.Controller.ChatTread;
+import Client.Controller.Client;
+import Client.Controller.CommandTranser;
 import Client.Model.Config;
-import net.sf.json.JSONObject;
+import Client.Model.User;
 
 import java.awt.event.*;
+import java.net.Socket;
 
 public class LoginWindow extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -19,6 +22,8 @@ public class LoginWindow extends JFrame {
     public JLabel label,label_1,label_2,label_3,label_4;
     private JLabel label_5,label_6;
     ImageIcon image;
+    Client client = new Client();
+    public Socket socket = null;
 
     /*
      * Launch the application.
@@ -41,6 +46,8 @@ public class LoginWindow extends JFrame {
      * Create the frame.
      */
     public LoginWindow() {
+
+
         new StyleWindow();
         //background picture
         JLabel picture = new JLabel();
@@ -81,7 +88,7 @@ public class LoginWindow extends JFrame {
 
         //password label
         label_2 = new JLabel("\u5BC6  \u7801\uFF1A");
-        label_2.setBounds(95, 225, 65, 53);
+        label_2.setBounds(95, 225, 70, 53);
         c.add(label_2);
 
         //id textField
@@ -93,7 +100,7 @@ public class LoginWindow extends JFrame {
         //change password button
         label_3 = new JLabel("忘记密码？");
         label_3.setForeground(new Color(65, 105, 225));
-        label_3.setBounds(170, 277, 60, 31);
+        label_3.setBounds(170, 277, 65, 31);
         c.add(label_3);
 
         //register label
@@ -130,9 +137,9 @@ public class LoginWindow extends JFrame {
     public void MyEvent()
     {
         button_1.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 // TODO Auto-generated method stub
                 String id = textField.getText().trim();
                 String password = passwordField.getText().trim();
@@ -140,29 +147,112 @@ public class LoginWindow extends JFrame {
                     JOptionPane.showMessageDialog(null, "账号密码必须填写!");
                     return;
                 }
+                //
                 Config.id = id;
-                Config.password = password;
-                try {
-                    JSONObject json = NetService.getNetService().login();
+                User user = new User(id, password);
+                CommandTranser cmd = new CommandTranser();
+                cmd.setCmd("login");
+                cmd.setData(user);
+                cmd.setReceiver(id);
+                cmd.setSender(id);
 
-                    if (json.getInt("state") == 0) {
+                //实例化客户端 连接服务器 发送数据 密码是否正确?
 
-                        // 登录成功后 显示好友列表
-                        ChatWindow frame = new ChatWindow();
-                        frame.setVisible(true);
-                        dispose();
-						/*new HaoyouliebiaoDialog().setVisible(true);
-						LoginDialog.this.setVisible(false);
-						LoginDialog.this.dispose()*/;
+                Client client = new Client(); //创建唯一的客户端（用于接受服务器发来的消息， socket接口），
+                client.sendData(cmd); //发送数据
+                cmd = client.getData(); //接受反馈的消息
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, json.getString("msg"));
+                if(cmd != null) {
+                    if(cmd.isFlag()) {
+                        dispose(); //关闭MainFrame页面
+                        JOptionPane.showMessageDialog(null,  "登录成功");
+                        user = (User)cmd.getData();
+                        ChatWindow chatwindow = new ChatWindow(user, client); //将user的全部信息传到FriendsUI中，并将唯一与服务器交流的接口传到FriendUI中 这里传client仅为了发送消息
+                        ChatTread thread = new ChatTread(client, user, chatwindow); //这里传client为了收消息， 整个客户端用一个 ChatTread，一个client
+                        thread.start();
+                    }else {
+
+                        JOptionPane.showMessageDialog(null, cmd.getResult());
                     }
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "网络连接失败!");
                 }
+				/*Config.id = id;
+				Config.password = password;
+				Connection conn = null;
+				Statement statement = null;
+				ResultSet rs = null;
+				boolean state = false;
+
+				System.out.println(state);
+				String sql = "select password from user where id = '"+Config.id+"'";
+				try {
+					conn = SQL_Connect.getConnection();
+					statement = conn.createStatement();
+					rs = statement.executeQuery(sql);
+					while(rs.next())
+					{
+						if(state==true)
+						{
+							JOptionPane.showMessageDialog(null, "该用户已登陆！");
+							break;
+						}
+
+					    else if(Config.password.equals(rs.getString("password")))
+						{
+					    	System.out.println(state);
+							JOptionPane.showMessageDialog(null, "登陆成功");
+							Client client = new Client(); //创建唯一的客户端（用于接受服务器发来的消息， socket接口），
+							ChatTread thread = new ChatTread(client, Config.id);
+
+							SocketEntity socketEntity = new SocketEntity();
+							socketEntity.setName(Config.id);
+
+
+							socketEntity.setSocket(socket);
+							SocketList.addSocket(socketEntity);
+
+							thread.start();
+
+
+							ChatWindow frame = new ChatWindow(Config.id,client);
+							frame.setVisible(true);
+							dispose();
+						}else
+						{
+							JOptionPane.showMessageDialog(null, "账号或密码错误！");
+						}
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("数据库连接失败");
+					e1.printStackTrace();
+				}*/
+				/*String id_1 = textField.getText().trim();
+				String password_1 = passwordField.getText().trim();
+				if (id_1.trim().equals("") || password_1.trim().equals("")) {
+					JOptionPane.showMessageDialog(null, "用户名和密码必须填写!");
+					return;
+				}
+				Config.id = id_1;
+				Config.password = password_1;
+				try {
+					JSONObject json = NetService.getNetService().login();
+
+					if (json.getInt("state") == 0) {
+
+						// 登录成功后 显示好友列表
+						ChatWindow frame = new ChatWindow(Config.id);
+						frame.setVisible(true);
+						new ChatWindow(Config.id).setVisible(true);
+						dispose();
+
+					} else {
+						JOptionPane.showMessageDialog(null, json.getString("msg"));
+					}
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "网络连接失败!...");
+				}*/
 
             }
         });
