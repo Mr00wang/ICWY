@@ -14,7 +14,10 @@ public class SocketList {
     //通过昵称返回socket 类比socklist在客户端创建 ChatUIList
     public static Socket getSocket(String name) {
         return map.get(name);
+
+
     }
+
 
     public static HashMap<String, Socket> getMap(){
         return map;
