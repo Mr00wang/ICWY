@@ -164,8 +164,8 @@ public class LoginWindow extends JFrame {
 
                 if(cmd != null) {
                     if(cmd.isFlag()) {
-                        dispose(); //关闭MainFrame页面
                         JOptionPane.showMessageDialog(null,  "登录成功");
+                        dispose();
                         user = (User)cmd.getData();
                         ChatWindow chatwindow = new ChatWindow(user, client); //将user的全部信息传到FriendsUI中，并将唯一与服务器交流的接口传到FriendUI中 这里传client仅为了发送消息
                         ChatTread thread = new ChatTread(client, user, chatwindow); //这里传client为了收消息， 整个客户端用一个 ChatTread，一个client

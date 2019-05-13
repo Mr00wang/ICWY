@@ -228,7 +228,7 @@ public class DialogWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
-                textArea_2.setText("");
+                //textArea_2.setText("");
                 String message = new SystemTime().getSystemTime() + "\t"+"我说 : " +"\n"+ textArea.getText()+"\n";
                 //聊天框添加消息
                 textArea_2.append(message);

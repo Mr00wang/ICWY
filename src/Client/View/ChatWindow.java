@@ -20,9 +20,7 @@ import javax.swing.border.*;
 
 public class ChatWindow extends JFrame {
 
-    /**
-     *
-     */
+
     private static final long serialVersionUID = 1L;
     protected Point pressedPoint;
     private JLabel label;
@@ -38,7 +36,7 @@ public class ChatWindow extends JFrame {
     public ChatWindow(User owner,Client client) {
         this.owner=owner;
         this.client=client;
-        //new StyleWindow();
+        new StyleWindow();
 
         JLabel picture = new JLabel();
         picture.setIcon(new ImageIcon("picture/ChatWindow.jpg"));

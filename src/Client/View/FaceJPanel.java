@@ -89,10 +89,29 @@ public class FaceJPanel extends JPanel implements Comparable<FaceJPanel>, MouseL
         JMenuItem menuitem2 = new JMenuItem("查看资料");
         JMenuItem menuitem3 = new JMenuItem("删除好友");
 
-        //menuinfo.add(menuitem1);
+        menuinfo.add(menuitem1);
         menuinfo.add(menuitem2);
         menuinfo.add(menuitem3);
 
+        menuitem1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("点击成功");
+                //查看与该好友是否创建过窗口
+                DialogWindow dialogwindow = ChatUIList.getDialogWindow(friend_id);
+                if(dialogwindow == null) {
+                    dialogwindow = new DialogWindow(netName,image,friend_id,Config.id,client);
+                    ChatUIEntity chatUIEntity = new ChatUIEntity(dialogwindow,friend_id);
+                    //chatUIEntity.setName(netName);
+                    //chatUIEntity.setDialogWindow(dialogwindow);
+                    ChatUIList.addDialogWindow(chatUIEntity);
+                } else {
+                    dialogwindow.setAlwaysOnTop(true);
+                    dialogwindow.show(); //如果以前创建过仅被别的窗口掩盖了 就重新显示
+                }
+            }
+        });
         menuitem2.addActionListener(new ActionListener() {
 
             @Override
@@ -146,22 +165,6 @@ public class FaceJPanel extends JPanel implements Comparable<FaceJPanel>, MouseL
         menuinfo.show(invoker, x, y);
     }
     public void mouseClicked(MouseEvent e) {
-        if(e.getClickCount()==2)
-        {
-            System.out.println("点击成功");
-            //查看与该好友是否创建过窗口
-            DialogWindow dialogwindow = ChatUIList.getDialogWindow(netName);
-            if(dialogwindow == null) {
-                dialogwindow = new DialogWindow(netName,image,friend_id,Config.id,client);
-                ChatUIEntity chatUIEntity = new ChatUIEntity();
-                chatUIEntity.setName(netName);
-                chatUIEntity.setDialogWindow(dialogwindow);
-                ChatUIList.addDialogWindow(chatUIEntity);
-            } else {
-                dialogwindow.setAlwaysOnTop(true);
-                dialogwindow.show(); //如果以前创建过仅被别的窗口掩盖了 就重新显示
-            }
-        }
     }
 
     public void mousePressed(MouseEvent e) {
