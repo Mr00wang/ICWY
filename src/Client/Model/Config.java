@@ -24,35 +24,7 @@ public class Config {
 
     //public static HaoyouListJPanel haoyouListJPanel;
 
-    // 好友信息列表 JSON
-    public static String haoyou_json_data = "";
 
-    // 好友信息列表
-    public static String haoyou_liebiao_data = "";
-
-    /**
-     * 取出好友列表值
-     *
-     * @param haoyou_json_data
-     */
-    public static void jiexi_haoyou_json_data(String haoyou_json_data) {
-        Config.haoyou_json_data = haoyou_json_data;
-        JSONArray json = JSONArray.fromObject(haoyou_json_data);
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < json.size(); i++) {
-            JSONObject jsonobj = (JSONObject) json.get(i);
-            stringBuffer.append(jsonobj.getString("uid"));
-            stringBuffer.append(",");
-        }
-        haoyou_liebiao_data = stringBuffer.toString();
-
-    }
-
-    // 个人资料
-    public static String geren_json_data = "";
-
-    // 好友在线
-    public static String haoyou_online = "";
 
     // UDP发送和接收 以及心跳端
     public static DatagramSocket datagramSocket_client = null;

@@ -164,6 +164,7 @@ public class FaceJPanel extends JPanel implements Comparable<FaceJPanel>, MouseL
         });
         menuinfo.show(invoker, x, y);
     }
+    @SuppressWarnings("deprecation")
     public void mouseClicked(MouseEvent e) {
     }
 

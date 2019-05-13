@@ -5,17 +5,13 @@ import java.util.HashMap;
 import Client.View.DialogWindow;
 
 
-/**
- * @author
- * @version
- *  窗口控制器 每个聊天界面都在这里"注册"
- */
+
 public class ChatUIList {
     private static HashMap<String, DialogWindow> map = new HashMap<String, DialogWindow>();
 
     //向map里面“注册”
     public static void addDialogWindow(ChatUIEntity chatUIEntity) {
-        map.put(chatUIEntity.getName(), chatUIEntity.getDialogWindow());
+        map.put(chatUIEntity.getId(), chatUIEntity.getDialogWindow());
     }
 
     //关闭窗口后要删除
@@ -29,8 +25,8 @@ public class ChatUIList {
     }
 
     //通过昵称返回窗口
-    public static DialogWindow getDialogWindow(String name) {
-        return map.get(name);
+    public static DialogWindow getDialogWindow(String id) {
+        return map.get(id);
     }
 }
 

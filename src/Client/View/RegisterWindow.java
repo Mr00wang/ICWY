@@ -238,7 +238,7 @@ public class RegisterWindow extends JFrame {
                     {
                         String id = new CreatID(statement).getID();
                         System.out.println(id);
-                        String img = "E:\\\\java\\\\ICWY1\\\\picture\\\\head1.jpg";
+                        String img = "head1";
                         int state = 0;
                         //获取按钮的值
                         String sex="false";

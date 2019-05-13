@@ -2,22 +2,20 @@ package Client.Controller;
 
 import Client.View.DialogWindow;
 
-/**
- * @author
- * @version
- */
+
+
 public class ChatUIEntity {
     private DialogWindow dialogwindow;
-    private String name;
+    private String id;
 
     public ChatUIEntity() {
         super();
     }
 
-    public ChatUIEntity(DialogWindow dialogwindow, String name) {
+    public ChatUIEntity(DialogWindow dialogwindow, String id) {
         super();
         this.dialogwindow = dialogwindow;
-        this.name = name;
+        this.id = id;
     }
 
     public DialogWindow getDialogWindow() {
@@ -28,11 +26,11 @@ public class ChatUIEntity {
         this.dialogwindow = dialogwindow;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

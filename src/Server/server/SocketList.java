@@ -4,10 +4,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 
-/**
- * @author
- * @version
- */
+
 public class SocketList {
     private static HashMap<String, Socket> map = new HashMap<String, Socket>();
     public static void addSocket(SocketEntity socketEntity) {

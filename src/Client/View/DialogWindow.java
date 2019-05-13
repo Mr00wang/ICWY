@@ -134,6 +134,17 @@ public class DialogWindow extends JFrame {
         button_3.setForeground(SystemColor.desktop);
         panel_2.add(button_3);
 
+        JButton button_5 = new JButton("\u6E05   \u5C4F");
+        button_5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                textArea_2.setText("");
+            }
+        });
+        button_3.setFont(new Font("宋体", Font.PLAIN, 15));
+        button_3.setBackground(new Color(0, 191, 255));
+        button_3.setForeground(SystemColor.desktop);
+        panel_2.add(button_5);
+
         //发送面板
         FlowLayout flowLayout_2 = new FlowLayout();
         flowLayout_2.setAlignment(FlowLayout.RIGHT);
@@ -271,7 +282,4 @@ public class DialogWindow extends JFrame {
         // TODO Auto-generated method stub
         return null;
     }
-
-
-
 }

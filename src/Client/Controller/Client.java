@@ -12,14 +12,14 @@ import javax.swing.JOptionPane;
 
 
 public class Client {
+    private String IP = "127.0.0.1"; //服务器主机ip
     private int port = 4003;
-    private String Sever_address = "127.0.0.1"; //服务器主机ip
     private Socket socket;
 
     //实例化， 建立连接
     public Client(){
         try {
-            socket = new Socket(Sever_address, port);
+            socket = new Socket(IP, port);
         } catch(UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "服务器端未开启");
         }catch(IOException e) {
@@ -67,12 +67,7 @@ public class Client {
             return null;
         }
 
-        /*
-         * 这里有用吗？-----------------------------------------------------------------------------------应该没用只是在测使输出
-         */
-//		if("message".equals(cmd.getCmd())) {
-//			System.out.println((String)cmd.getData());
-//		}
+
 
         return cmd;
     }

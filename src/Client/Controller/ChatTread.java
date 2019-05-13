@@ -12,12 +12,6 @@ import Client.Model.User;
 import Client.View.ChatWindow;
 import Client.View.DialogWindow;
 
-
-
-
-/**
-
- */
 public class ChatTread extends Thread{
     private Client client;
     private boolean isOnline = true;
@@ -72,14 +66,14 @@ public class ChatTread extends Thread{
             if(dialogWindow == null) {
                 dialogWindow = new DialogWindow(null, null,friend_id, userQQ, client);
                 ChatUIEntity chatUIEntity = new ChatUIEntity();
-                chatUIEntity.setName(friend_id);
+                chatUIEntity.setId(friend_id);
                 chatUIEntity.setDialogWindow(dialogWindow);
                 ChatUIList.addDialogWindow(chatUIEntity);
             } else {
                 dialogWindow.show(); //如果以前创建过仅被别的窗口掩盖了 就重新显示
             }
-            String message = friend_id + "说：" + "\t" +new SystemTime().getSystemTime()+ "\n"
-                    + (String) cmd.getData();
+            String message = new SystemTime().getSystemTime()+"\t"+friend_id + "说：" + "\n"
+                    + (String) cmd.getData()+"\n";
 
             dialogWindow.getChatWin().append(message); //追加消息
             return;

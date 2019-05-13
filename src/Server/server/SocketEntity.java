@@ -2,10 +2,7 @@ package Server.server;
 
 import java.net.Socket;
 
-/**
- * @author
- * @version
- */
+
 //将每一个socket取个名字便于寻找，这就是SocketEntity的作用
 public class SocketEntity {
     private Socket socket;

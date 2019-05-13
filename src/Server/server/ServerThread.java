@@ -12,10 +12,7 @@ import Server.db.UserService;
 
 
 
-/**
- * @author
- * @createDate
- */
+
 public class ServerThread extends Thread{
     private Socket socket;
 

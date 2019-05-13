@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * @author
- * @version
- */
+
 public class Service {
     public void startService() {
         try {
